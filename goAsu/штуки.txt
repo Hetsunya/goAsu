@@ -1,0 +1,55 @@
+# Команды для objects
+
+# Получение всех объектов
+curl -X GET http://localhost:8080/objects
+
+# Создание нового объекта
+curl -X POST http://localhost:8080/objects -H "Content-Type: application/json" -d "{\"id\":1, \"name\":\"New Object\", \"type\":1}"
+
+# Обновление объекта
+curl -X PUT http://localhost:8080/objects -H "Content-Type: application/json" -d "{\"id\":1, \"name\":\"Updated Object\", \"type\":2}"
+
+# Удаление объекта
+curl -X DELETE "http://localhost:8080/objects?id=1"
+
+# Команды для wells
+
+# Получение всех скважин
+curl -X GET http://localhost:8080/wells
+
+# Создание новой скважины
+curl -X POST http://localhost:8080/wells -H "Content-Type: application/json" -d "{\"well\":1, \"ngdu\":1, \"cdng\":1, \"kust\":1, \"mest\":1}"
+
+# Обновление скважины
+curl -X PUT http://localhost:8080/wells -H "Content-Type: application/json" -d "{\"well\":1, \"ngdu\":2, \"cdng\":2, \"kust\":2, \"mest\":2}"
+
+# Удаление скважины
+curl -X DELETE "http://localhost:8080/wells?well=1"
+
+# Команды для well_day_histories
+
+# Получение всех историй скважин за день
+curl -X GET http://localhost:8080/well_day_histories
+
+# Создание новой истории скважины за день
+curl -X POST http://localhost:8080/well_day_histories -H "Content-Type: application/json" -d "{\"well\":4455, \"date_fact\":\"2024-12-10\", \"debit\":10, \"ee_consume\":50.5, \"expenses\":5.123, \"pump_operating\":10}"
+
+# Обновление истории скважины за день
+curl -X PUT http://localhost:8080/well_day_histories -H "Content-Type: application/json" -d "{\"well\":4455, \"date_fact\":\"2024-12-10\", \"debit\":15, \"ee_consume\":55.5, \"expenses\":5.678, \"pump_operating\":12}"
+
+# Удаление истории скважины за день
+curl -X DELETE "http://localhost:8080/well_day_histories?well=4455&date_fact=2024-12-10"
+
+# Команды для well_day_plans
+
+# Получение всех планов скважин за день
+curl -X GET http://localhost:8080/well_day_plans
+
+# Создание нового плана скважины за день
+curl -X POST http://localhost:8080/well_day_plans -H "Content-Type: application/json" -d "{\"well\":4455, \"date_plan\":\"2024-12-10\", \"debit\":20, \"ee_consume\":60.5, \"expenses\":6.789, \"pump_operating\":15}"
+
+# Обновление плана скважины за день
+curl -X PUT http://localhost:8080/well_day_plans -H "Content-Type: application/json" -d "{\"well\":4455, \"date_plan\":\"2024-12-10\", \"debit\":25, \"ee_consume\":65.5, \"expenses\":7.891, \"pump_operating\":18}"
+
+# Удаление плана скважины за день
+curl -X DELETE "http://localhost:8080/well_day_plans?well=4455&date_plan=2024-12-10"
