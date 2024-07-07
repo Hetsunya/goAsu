@@ -25,6 +25,13 @@ func ObjectsHandler(db *sql.DB) http.HandlerFunc {
 	}
 }
 
+// @Summary Получение всех объектов
+// @Description Возвращает все объекты
+// @Tags objects
+// @Produce  json
+// @Success 200 {array} models.Object
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /objects [get]
 func getObjects(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	rows, err := db.Query("SELECT id, name, type FROM objects")
 	if err != nil {
@@ -47,6 +54,16 @@ func getObjects(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(objects)
 }
 
+// @Summary Создание нового объекта
+// @Description Создает новый объект
+// @Tags objects
+// @Accept  json
+// @Produce  json
+// @Param object body models.Object true "Создаваемый объект"
+// @Success 201 {string} string "Created"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /objects [post]
 func createObject(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	var obj models.Object
 	if err := json.NewDecoder(r.Body).Decode(&obj); err != nil {
@@ -67,6 +84,16 @@ func createObject(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(obj)
 }
 
+// @Summary Обновление объекта
+// @Description Обновляет объект
+// @Tags objects
+// @Accept  json
+// @Produce  json
+// @Param object body models.Object true "Обновляемый объект"
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /objects [put]
 func updateObject(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	var obj models.Object
 	if err := json.NewDecoder(r.Body).Decode(&obj); err != nil {
@@ -96,6 +123,14 @@ func updateObject(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(obj)
 }
 
+// @Summary Удаление объекта
+// @Description Удаляет объект
+// @Tags objects
+// @Param id query int true "ID объекта"
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /objects [delete]
 func deleteObject(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(r.URL.Query().Get("id"))
 	if err != nil {

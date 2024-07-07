@@ -25,6 +25,16 @@ func WellDayHistoriesHandler(db *sql.DB) http.HandlerFunc {
 	}
 }
 
+// getWellDayHistories возвращает историю дневных данных по заданной скважине.
+// @Summary Получение истории дневных данных по скважине
+// @Description Возвращает историю дневных данных по заданной скважине
+// @Tags well_day_histories
+// @Produce json
+// @Param well query int true "ID скважины"
+// @Success 200 {array} models.WellDayHistory
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /well_day_histories [get]
 func getWellDayHistories(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	rows, err := db.Query("SELECT well, date_fact, debit, ee_consume, expenses, pump_operating FROM well_day_histories")
 	if err != nil {
@@ -47,6 +57,17 @@ func getWellDayHistories(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(histories)
 }
 
+// createWellDayHistory создает новую запись в истории дневных данных для заданной скважины.
+// @Summary Создание записи в истории дневных данных
+// @Description Создает новую запись в истории дневных данных для заданной скважины
+// @Tags well_day_histories
+// @Accept json
+// @Produce json
+// @Param well body models.WellDayHistory true "Создаваемая запись истории дневных данных"
+// @Success 201 {string} string "Created"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /well_day_histories [post]
 func createWellDayHistory(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	var history models.WellDayHistory
 	if err := json.NewDecoder(r.Body).Decode(&history); err != nil {
@@ -65,6 +86,17 @@ func createWellDayHistory(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(history)
 }
 
+// updateWellDayHistory обновляет существующую запись в истории дневных данных для заданной скважины.
+// @Summary Обновление записи в истории дневных данных
+// @Description Обновляет существующую запись в истории дневных данных для заданной скважины
+// @Tags well_day_histories
+// @Accept json
+// @Produce json
+// @Param well body models.WellDayHistory true "Обновляемая запись истории дневных данных"
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /well_day_histories [put]
 func updateWellDayHistory(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	var history models.WellDayHistory
 	if err := json.NewDecoder(r.Body).Decode(&history); err != nil {
@@ -83,6 +115,15 @@ func updateWellDayHistory(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(history)
 }
 
+// deleteWellDayHistory удаляет запись из истории дневных данных для заданной скважины.
+// @Summary Удаление записи из истории дневных данных
+// @Description Удаляет запись из истории дневных данных для заданной скважины
+// @Tags well_day_histories
+// @Param id query int true "ID записи истории дневных данных"
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /well_day_histories [delete]
 func deleteWellDayHistory(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	well, err := strconv.Atoi(r.URL.Query().Get("well"))
 	if err != nil {

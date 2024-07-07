@@ -25,6 +25,13 @@ func WellsHandler(db *sql.DB) http.HandlerFunc {
 	}
 }
 
+// @Summary Получение всех скважин
+// @Description Возвращает все скважины
+// @Tags wells
+// @Produce  json
+// @Success 200 {array} models.Well
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /wells [get]
 func getWells(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	rows, err := db.Query("SELECT well, ngdu, cdng, kust, mest FROM wells")
 	if err != nil {
@@ -47,6 +54,16 @@ func getWells(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(wells)
 }
 
+// @Summary Создание новой скважины
+// @Description Создает новую скважину
+// @Tags wells
+// @Accept  json
+// @Produce  json
+// @Param well body models.Well true "Создаваемая скважина"
+// @Success 201 {string} string "Created"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /wells [post]
 func createWell(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	var well models.Well
 	if err := json.NewDecoder(r.Body).Decode(&well); err != nil {
@@ -65,6 +82,16 @@ func createWell(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(well)
 }
 
+// @Summary Обновление скважины
+// @Description Обновляет информацию о скважине
+// @Tags wells
+// @Accept  json
+// @Produce  json
+// @Param well body models.Well true "Обновляемая скважина"
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /wells [put]
 func updateWell(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	var well models.Well
 	if err := json.NewDecoder(r.Body).Decode(&well); err != nil {
@@ -83,6 +110,14 @@ func updateWell(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(well)
 }
 
+// @Summary Удаление скважины
+// @Description Удаляет скважину по ID
+// @Tags wells
+// @Param id query int true "ID скважины"
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /wells [delete]
 func deleteWell(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	well, err := strconv.Atoi(r.URL.Query().Get("well"))
 	if err != nil {

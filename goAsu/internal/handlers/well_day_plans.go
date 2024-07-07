@@ -25,6 +25,16 @@ func WellDayPlansHandler(db *sql.DB) http.HandlerFunc {
 	}
 }
 
+// getWellDayPlans возвращает плановые данные по заданной скважине.
+// @Summary Получение плановых данных по скважине
+// @Description Возвращает плановые данные по заданной скважине
+// @Tags well_day_plans
+// @Produce json
+// @Param well query int true "ID скважины"
+// @Success 200 {array} models.WellDayPlan
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /well_day_plans [get]
 func getWellDayPlans(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	rows, err := db.Query("SELECT well, date_plan, debit, ee_consume, expenses, pump_operating FROM well_day_plans")
 	if err != nil {
@@ -47,6 +57,17 @@ func getWellDayPlans(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(plans)
 }
 
+// createWellDayPlan создает новый плановый день для заданной скважины.
+// @Summary Создание планового дня
+// @Description Создает новый плановый день для заданной скважины
+// @Tags well_day_plans
+// @Accept json
+// @Produce json
+// @Param well body models.WellDayPlan true "Создаваемый плановый день"
+// @Success 201 {string} string "Created"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /well_day_plans [post]
 func createWellDayPlan(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	var plan models.WellDayPlan
 	if err := json.NewDecoder(r.Body).Decode(&plan); err != nil {
@@ -65,6 +86,17 @@ func createWellDayPlan(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(plan)
 }
 
+// updateWellDayPlan обновляет плановый день для заданной скважины.
+// @Summary Обновление планового дня
+// @Description Обновляет плановый день для заданной скважины
+// @Tags well_day_plans
+// @Accept json
+// @Produce json
+// @Param well body models.WellDayPlan true "Обновляемый плановый день"
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /well_day_plans [put]
 func updateWellDayPlan(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	var plan models.WellDayPlan
 	if err := json.NewDecoder(r.Body).Decode(&plan); err != nil {
@@ -83,6 +115,15 @@ func updateWellDayPlan(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(plan)
 }
 
+// deleteWellDayPlan удаляет плановый день для заданной скважины.
+// @Summary Удаление планового дня
+// @Description Удаляет плановый день для заданной скважины
+// @Tags well_day_plans
+// @Param id query int true "ID планового дня"
+// @Success 200 {string} string "OK"
+// @Failure 400 {string} string "Bad Request"
+// @Failure 500 {string} string "Internal Server Error"
+// @Router /well_day_plans [delete]
 func deleteWellDayPlan(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	well, err := strconv.Atoi(r.URL.Query().Get("well"))
 	if err != nil {

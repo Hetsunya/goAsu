@@ -1,0 +1,737 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "REST API для обработки данных, хранимых в СУБД предприятия \"НефтьДобыча\".",
+        "title": "NeftDobicha API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {
+        "/objects": {
+            "get": {
+                "description": "Возвращает все объекты",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "objects"
+                ],
+                "summary": "Получение всех объектов",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Object"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Обновляет объект",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "objects"
+                ],
+                "summary": "Обновление объекта",
+                "parameters": [
+                    {
+                        "description": "Обновляемый объект",
+                        "name": "object",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Создает новый объект",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "objects"
+                ],
+                "summary": "Создание нового объекта",
+                "parameters": [
+                    {
+                        "description": "Создаваемый объект",
+                        "name": "object",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Удаляет объект",
+                "tags": [
+                    "objects"
+                ],
+                "summary": "Удаление объекта",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID объекта",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/well_day_histories": {
+            "get": {
+                "description": "Возвращает историю дневных данных по заданной скважине",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "well_day_histories"
+                ],
+                "summary": "Получение истории дневных данных по скважине",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID скважины",
+                        "name": "well",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.WellDayHistory"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Обновляет существующую запись в истории дневных данных для заданной скважины",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "well_day_histories"
+                ],
+                "summary": "Обновление записи в истории дневных данных",
+                "parameters": [
+                    {
+                        "description": "Обновляемая запись истории дневных данных",
+                        "name": "well",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.WellDayHistory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Создает новую запись в истории дневных данных для заданной скважины",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "well_day_histories"
+                ],
+                "summary": "Создание записи в истории дневных данных",
+                "parameters": [
+                    {
+                        "description": "Создаваемая запись истории дневных данных",
+                        "name": "well",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.WellDayHistory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Удаляет запись из истории дневных данных для заданной скважины",
+                "tags": [
+                    "well_day_histories"
+                ],
+                "summary": "Удаление записи из истории дневных данных",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID записи истории дневных данных",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/well_day_plans": {
+            "get": {
+                "description": "Возвращает плановые данные по заданной скважине",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "well_day_plans"
+                ],
+                "summary": "Получение плановых данных по скважине",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID скважины",
+                        "name": "well",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.WellDayPlan"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Обновляет плановый день для заданной скважины",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "well_day_plans"
+                ],
+                "summary": "Обновление планового дня",
+                "parameters": [
+                    {
+                        "description": "Обновляемый плановый день",
+                        "name": "well",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.WellDayPlan"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Создает новый плановый день для заданной скважины",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "well_day_plans"
+                ],
+                "summary": "Создание планового дня",
+                "parameters": [
+                    {
+                        "description": "Создаваемый плановый день",
+                        "name": "well",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.WellDayPlan"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Удаляет плановый день для заданной скважины",
+                "tags": [
+                    "well_day_plans"
+                ],
+                "summary": "Удаление планового дня",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID планового дня",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/wells": {
+            "get": {
+                "description": "Возвращает все скважины",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wells"
+                ],
+                "summary": "Получение всех скважин",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Well"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Обновляет информацию о скважине",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wells"
+                ],
+                "summary": "Обновление скважины",
+                "parameters": [
+                    {
+                        "description": "Обновляемая скважина",
+                        "name": "well",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Well"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Создает новую скважину",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wells"
+                ],
+                "summary": "Создание новой скважины",
+                "parameters": [
+                    {
+                        "description": "Создаваемая скважина",
+                        "name": "well",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Well"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Удаляет скважину по ID",
+                "tags": [
+                    "wells"
+                ],
+                "summary": "Удаление скважины",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID скважины",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Object": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Well": {
+            "type": "object",
+            "properties": {
+                "cdng": {
+                    "type": "integer"
+                },
+                "kust": {
+                    "type": "integer"
+                },
+                "mest": {
+                    "type": "integer"
+                },
+                "ngdu": {
+                    "type": "integer"
+                },
+                "well": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.WellDayHistory": {
+            "type": "object",
+            "properties": {
+                "date_fact": {
+                    "type": "string"
+                },
+                "debit": {
+                    "type": "number"
+                },
+                "ee_consume": {
+                    "type": "number"
+                },
+                "expenses": {
+                    "type": "number"
+                },
+                "pump_operating": {
+                    "type": "number"
+                },
+                "well": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.WellDayPlan": {
+            "type": "object",
+            "properties": {
+                "date_plan": {
+                    "type": "string"
+                },
+                "debit": {
+                    "type": "number"
+                },
+                "ee_consume": {
+                    "type": "number"
+                },
+                "expenses": {
+                    "type": "number"
+                },
+                "pump_operating": {
+                    "type": "number"
+                },
+                "well": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

@@ -36,3 +36,11 @@ type WellDayPlan struct {
 	Expenses      float64 `json:"expenses"`
 	PumpOperating float64 `json:"pump_operating"`
 }
+
+const (
+	BASE_IP  = "109.120.183.88"
+	PORT     = 5432
+	USERNAME = "hetsu"
+	PASSWORD = "Admin1234567890!"
+	BASENAME = "PostgreSQL-vitalick113"
+)

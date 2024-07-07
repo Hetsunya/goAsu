@@ -1,0 +1,487 @@
+basePath: /
+definitions:
+  models.Object:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      type:
+        type: integer
+    type: object
+  models.Well:
+    properties:
+      cdng:
+        type: integer
+      kust:
+        type: integer
+      mest:
+        type: integer
+      ngdu:
+        type: integer
+      well:
+        type: integer
+    type: object
+  models.WellDayHistory:
+    properties:
+      date_fact:
+        type: string
+      debit:
+        type: number
+      ee_consume:
+        type: number
+      expenses:
+        type: number
+      pump_operating:
+        type: number
+      well:
+        type: integer
+    type: object
+  models.WellDayPlan:
+    properties:
+      date_plan:
+        type: string
+      debit:
+        type: number
+      ee_consume:
+        type: number
+      expenses:
+        type: number
+      pump_operating:
+        type: number
+      well:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: REST API для обработки данных, хранимых в СУБД предприятия "НефтьДобыча".
+  title: NeftDobicha API
+  version: "1.0"
+paths:
+  /objects:
+    delete:
+      description: Удаляет объект
+      parameters:
+      - description: ID объекта
+        in: query
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Удаление объекта
+      tags:
+      - objects
+    get:
+      description: Возвращает все объекты
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Object'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Получение всех объектов
+      tags:
+      - objects
+    post:
+      consumes:
+      - application/json
+      description: Создает новый объект
+      parameters:
+      - description: Создаваемый объект
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/models.Object'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Создание нового объекта
+      tags:
+      - objects
+    put:
+      consumes:
+      - application/json
+      description: Обновляет объект
+      parameters:
+      - description: Обновляемый объект
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/models.Object'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Обновление объекта
+      tags:
+      - objects
+  /well_day_histories:
+    delete:
+      description: Удаляет запись из истории дневных данных для заданной скважины
+      parameters:
+      - description: ID записи истории дневных данных
+        in: query
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Удаление записи из истории дневных данных
+      tags:
+      - well_day_histories
+    get:
+      description: Возвращает историю дневных данных по заданной скважине
+      parameters:
+      - description: ID скважины
+        in: query
+        name: well
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.WellDayHistory'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Получение истории дневных данных по скважине
+      tags:
+      - well_day_histories
+    post:
+      consumes:
+      - application/json
+      description: Создает новую запись в истории дневных данных для заданной скважины
+      parameters:
+      - description: Создаваемая запись истории дневных данных
+        in: body
+        name: well
+        required: true
+        schema:
+          $ref: '#/definitions/models.WellDayHistory'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Создание записи в истории дневных данных
+      tags:
+      - well_day_histories
+    put:
+      consumes:
+      - application/json
+      description: Обновляет существующую запись в истории дневных данных для заданной
+        скважины
+      parameters:
+      - description: Обновляемая запись истории дневных данных
+        in: body
+        name: well
+        required: true
+        schema:
+          $ref: '#/definitions/models.WellDayHistory'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Обновление записи в истории дневных данных
+      tags:
+      - well_day_histories
+  /well_day_plans:
+    delete:
+      description: Удаляет плановый день для заданной скважины
+      parameters:
+      - description: ID планового дня
+        in: query
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Удаление планового дня
+      tags:
+      - well_day_plans
+    get:
+      description: Возвращает плановые данные по заданной скважине
+      parameters:
+      - description: ID скважины
+        in: query
+        name: well
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.WellDayPlan'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Получение плановых данных по скважине
+      tags:
+      - well_day_plans
+    post:
+      consumes:
+      - application/json
+      description: Создает новый плановый день для заданной скважины
+      parameters:
+      - description: Создаваемый плановый день
+        in: body
+        name: well
+        required: true
+        schema:
+          $ref: '#/definitions/models.WellDayPlan'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Создание планового дня
+      tags:
+      - well_day_plans
+    put:
+      consumes:
+      - application/json
+      description: Обновляет плановый день для заданной скважины
+      parameters:
+      - description: Обновляемый плановый день
+        in: body
+        name: well
+        required: true
+        schema:
+          $ref: '#/definitions/models.WellDayPlan'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Обновление планового дня
+      tags:
+      - well_day_plans
+  /wells:
+    delete:
+      description: Удаляет скважину по ID
+      parameters:
+      - description: ID скважины
+        in: query
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Удаление скважины
+      tags:
+      - wells
+    get:
+      description: Возвращает все скважины
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Well'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Получение всех скважин
+      tags:
+      - wells
+    post:
+      consumes:
+      - application/json
+      description: Создает новую скважину
+      parameters:
+      - description: Создаваемая скважина
+        in: body
+        name: well
+        required: true
+        schema:
+          $ref: '#/definitions/models.Well'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Создание новой скважины
+      tags:
+      - wells
+    put:
+      consumes:
+      - application/json
+      description: Обновляет информацию о скважине
+      parameters:
+      - description: Обновляемая скважина
+        in: body
+        name: well
+        required: true
+        schema:
+          $ref: '#/definitions/models.Well'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Обновление скважины
+      tags:
+      - wells
+swagger: "2.0"
